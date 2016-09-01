@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<!--/表示根目录-->
+<struts>
+  <package name="news" extends="normalJson" namespace="/news" >
+     <action name="list" class="com.cqs.demo2.models.news.action.NewsAction" method="listJSON">
+        <result type="json" name="success">
+             <!-- 一定要设置-->
+              <param name="root">
+                 news
+              </param>
+        </result>
+      </action>
+
+      <action name="list2" class="com.cqs.demo2.models.news.action.NewsAction" method="list">
+          <result name="success">/demo2/news/newsList.jsp</result>
+      </action>
+  </package>
+</struts>

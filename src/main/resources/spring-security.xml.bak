@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--不拦截-->
+    <sec:http pattern="/demo2/login.jsp" security="none"></sec:http>
+
+    <sec:http auto-config="true" use-expressions="true" >
+        <sec:form-login login-page="/demo2/login.jsp"
+                    authentication-failure-url="/demo2/login.jsp"
+                    default-target-url="/demo2/user/demo4.jsp"/>
+        <sec:intercept-url pattern="/demo2/**" access="hasRole('ROLE_USER')" />
+    </sec:http>
+
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:user-service>
+                <sec:user name="admin" password="admin"
+                      authorities="ROLE_USER"/>
+            </sec:user-service>
+
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+</beans>

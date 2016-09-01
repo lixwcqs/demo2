@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+
+    <description>my functions library</description>
+    <display-name>JSTLCqs functions</display-name>
+    <tlib-version>1.0</tlib-version>
+
+    <!--随便写-->
+    <short-name>mfn</short-name>
+    <!--全局唯一即可-->
+    <uri>http://www.cqs.com/functions</uri>
+
+    <function>
+        <!--随便写-->
+        <name>percent</name>
+        <!-- Java类 -->
+        <function-class>com.cqs.common.utils.MathUtils</function-class>
+        <!--返回类型 方法名 参数类型-->
+        <function-signature>java.lang.String percent(int,int)</function-signature>
+    </function>
+
+</taglib>

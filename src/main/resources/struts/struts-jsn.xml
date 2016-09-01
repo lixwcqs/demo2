@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+        <package name="jsn" extends="normalJson" namespace="/jsn" >
+                <action name="jsn" class="com.cqs.demo2.models.json.action.JsonAction" method="json">
+                        <result name="success" type="json"  >
+                                <param name="includeProperties">
+                                        msg,*
+                                </param>
+                        </result>
+                </action>
+
+                <action name="hi"  class="com.cqs.demo2.models.json.action.JsonAction" method="say">
+                    <result name="success">demo2/user/user_list.jsp</result>
+                </action>
+        </package>
+</struts>

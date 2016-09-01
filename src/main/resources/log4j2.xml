@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <loggers>
+        <!--如果additivity=true,由于这个logger也是满足root，所以会被打印两次 -->
+        <logger name="com.trial.guava.*" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <!--其他没有指定的logger则输出error以上级别的信息-->
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </loggers>
+</configuration>

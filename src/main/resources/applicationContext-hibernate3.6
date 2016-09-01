@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+
+       default-autowire="byName"   default-lazy-init="true"
+
+        >
+
+       <context:component-scan base-package="com.cqs.*" />
+
+       <!-- -->
+       <context:property-placeholder location="classpath:config.properties"/>
+
+       <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+              <property name="driverClass">
+                     <value>${jdbc.driverClass}</value>
+              </property>
+
+              <property name="jdbcUrl">
+                     <value>${jdbc.url}</value>
+              </property>
+              <property name="user">
+                     <value>root</value>
+              </property>
+              <property name="password">
+                     <value>${jdbc.password}</value>
+              </property>
+              <property name="acquireIncrement">
+                     <value>2</value>
+              </property>
+              <property name="initialPoolSize">
+                     <value>3</value>
+              </property>
+              <property name="minPoolSize">
+                     <value>1</value>
+              </property>
+              <property name="maxPoolSize">
+                     <value>5</value>
+              </property>
+              <property name="maxIdleTime">
+                     <value>30</value>
+              </property>
+       </bean>
+
+       <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+              <property name="dataSource" ref="dataSource" />
+              <!-- -->
+              <property name="packagesToScan">
+                     <list>
+                            <value>com.cqs.demo2.models.*.model</value>
+                     </list>
+              </property>
+              <property name="hibernateProperties">
+                     <props>
+                            <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                            <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                            <prop key="hibernate.format_sql">true</prop>
+                            <prop key="hibernate.release_mode">auto</prop>
+                            <prop key="hibernate.connection.isolation">1</prop>
+                            <!--<prop key="hibernate.cache.use_query_cache">true</prop>-->
+                            <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
+                            <prop key="hibernate.jdbc.batch_size">25</prop>
+                            <prop key="hibernate.jdbc.fetch_size">25</prop>
+                            <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                     </props>
+              </property>
+       </bean>
+
+
+       <bean id="hibernateTransactionManagement" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+              <property name="sessionFactory" ref="sessionFactory" />
+       </bean>
+
+       <tx:advice transaction-manager="hibernateTransactionManagement" id="txAdvice" >
+              <tx:attributes>
+                     <tx:method name="get*" read-only="true"/>
+                     <tx:method name="find*" read-only="true"/>
+                     <tx:method name="query*" read-only="true"/>
+                     <tx:method name="search*" read-only="true"/>
+                     <tx:method name="create*" />
+                     <tx:method name="save*" />
+                     <tx:method name="update*" />
+                     <tx:method name="*" propagation="REQUIRED" />
+              </tx:attributes>
+       </tx:advice>
+
+       <!-- -->
+       <tx:annotation-driven transaction-manager="hibernateTransactionManagement" proxy-target-class="true" />
+
+</beans>

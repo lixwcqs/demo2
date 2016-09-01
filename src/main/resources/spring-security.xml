@@ -1,0 +1,44 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <http auto-config="false" use-expressions="true">
+
+        <csrf disabled="true"/>
+        <http-basic />
+        <intercept-url pattern="/" access="permitAll" />
+        <!--<intercept-url pattern="/demo2/news/newsList.jsp" access="hasAnyRole('ADMIN','ROLE_ADMIN','ANONYMOUS')" />-->
+        <!--<intercept-url pattern="/demo2/user/demo4.jsp" access="hasAnyRole('ANONYMOUS')" />-->
+        <!--<intercept-url pattern="/demo2/user/demo4.jsp" access="permitAll" />-->
+        <intercept-url pattern="/user/login.action" access="permitAll" />
+        <intercept-url pattern="/demo2/user/demo3.jsp" access="hasAnyRole('ANONYMOUS')" />
+        <intercept-url pattern="/scripts/**" access="permitAll" />
+        <intercept-url pattern="/images/**" access="permitAll" />
+        <form-login  login-page="/demo2/login.jsp"
+                     username-parameter="j_password"
+                     password-parameter="j_password"
+                     authentication-failure-url="/Access_Denied" />
+        <!--<intercept-url pattern="/**" access="isAuthenticated()" />-->
+        <intercept-url pattern="/demo2/user/**.jsp" access="hasRole('ADMIN')" />
+    </http>
+
+    <!--<global-method-security secured-annotations="enabled" pre-post-annotations="enabled" mode="aspectj" proxy-target-class="true" >-->
+    <global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+    </global-method-security>
+
+    <authentication-manager alias="authenticationManager">
+        <!--<authentication-provider user-service-ref="customUserDetailsService"/>-->
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="admin" authorities="ADMIN" />
+                <user name="test" password="test" authorities="TEST" />
+        </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+
+    <!--<beans:bean id="customUserDetailsService" class="com.cqs.security.config.CustomUserDetailsService" />-->
+
+</beans:beans>

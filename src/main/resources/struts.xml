@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+		"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <include file="struts-default.xml" />
+	<!--开启使用开发模式，详细错误提示-->
+	<constant name="struts.devMode" value="true" />
+	<!--multipart请求信息的最大尺寸（文件上传用，该属性指定Struts 2文件上传中整个请求内容允许的最大字节数）。-->
+	<constant name="struts.multipart.maxSize" value="90485761" />
+	<!-- 编码设置 -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 国际化资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="messageResouce"></constant>
+	<!-- 在Struts中配置IoC-->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- 允许struts2访问静态类-->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<!--指定每次请求到达，重新加载资源文件 修改免重启-->
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	<!-- convention类重新加载 -->
+	<constant name="struts.convention.classes.reload" value="true" />
+	<!--设置浏览器是否缓存静态内容，默认值为true（生产环境下使用），开发阶段最好关闭，方便调试。-->
+	<constant name="struts.serve.static.browserCache " value="false" />
+	<!--默认的国际化地区信息。-->
+	<constant name="struts.locale" value="zh_CN"/>
+    <!--&lt;!&ndash;使用注解配置struts的action时  加载资源 （JSP等） 目录&ndash;&gt;-->
+    <!--&lt;!&ndash;默认为/WEB-INF/content下面，现在改为在/health/下 【项目action跳转不能访问/pages以外的资源】&ndash;&gt;-->
+	<!--<constant name="struts.convention.result.path" value="/"/>-->
+
+	<!--使自动注入总是有效-->
+	<constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+
+
+	<!--系统子模块配置  注解-->
+ 	<include file="struts/struts-jsn.xml"></include>
+ 	<include file="struts/struts-user.xml"></include>
+ 	<include file="struts/struts-news.xml"></include>
+ 	<include file="struts/struts-imageUpload.xml"></include>
+
+
+
+	
+	<!--<package name="json" extends="json-default" namespace="/">-->
+		<!--<default-interceptor-ref name="defaultStack"></default-interceptor-ref>-->
+		<!--<global-results>-->
+			<!--<result name="error">/403.jsp</result>-->
+			<!--<result name="baseExpception">/exception.jsp</result>-->
+		<!--</global-results>-->
+		<!--<global-exception-mappings>-->
+			<!--<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>-->
+			<!--<exception-mapping exception="com.nci.common.base.BaseException" result="baseExpception"></exception-mapping>-->
+		<!--</global-exception-mappings>-->
+	<!--</package>-->
+	<!--自定义全局拦截器 -->
+	<package name="normalJson" extends="json-default" namespace="/">
+		<!-- 拦截器定义 -->
+        <interceptors>
+            <interceptor-stack name="nciDefaultStack">
+                <!--防止表单重复提交-->
+                <interceptor-ref name="token" />
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+		<!--<interceptors>-->
+			<!--<interceptor name="security" class="com.nci.common.interceptor.SecurityInterceptor"/>-->
+			<!--<interceptor-stack name="nciDefaultStack">-->
+				<!--<interceptor-ref name="security"/>-->
+				<!--<interceptor-ref name="defaultStack"/>-->
+			<!--</interceptor-stack>-->
+		<!--</interceptors>-->
+		<!--&lt;!&ndash; 修改默认拦截器 &ndash;&gt;-->
+		<!--<default-interceptor-ref name="nciDefaultStack"/>-->
+
+		<!--<global-results>-->
+			<!--<result name="error">/403.jsp</result>-->
+			<!--<result name="baseExpception">/error/500.jsp</result>-->
+			<!--<result name="RuntimeException">/error/500.jsp</result>-->
+			<!--&lt;!&ndash; 访问权限控制 &ndash;&gt;-->
+			<!--<result name="relogin">/loginForward.jsp</result>-->
+		<!--</global-results>-->
+		<!--<global-exception-mappings>-->
+			<!--<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>-->
+			<!--<exception-mapping exception="com.nci.common.base.BaseException" result="baseExpception"></exception-mapping>-->
+			<!--<exception-mapping result="RuntimeException" exception="java.lang.RuntimeException"></exception-mapping>-->
+		<!--</global-exception-mappings>-->
+	</package>
+</struts>

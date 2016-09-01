@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<!--/表示根目录-->
+<struts>
+    <package name="user" extends="normalJson" namespace="/user" >
+        <action name="create" class="com.cqs.demo2.models.user.action.UserAction" method="create">
+            <result name="success" >/demo2/user/list.jsp</result>
+        </action>
+
+        <action name="login" class="com.cqs.demo2.models.user.action.UserAction" method="login">
+            <result name="success" >/demo2/user/demo4.jsp</result>
+        </action>
+
+        <action name="update" class="com.cqs.demo2.models.user.action.UserAction" method="updateUser">
+            <result name="success"  type="redirectAction">listUser</result>
+        </action>
+
+        <action name="listUser" class="com.cqs.demo2.models.user.action.UserAction" method="list">
+            <result name="success">/demo2/user/user_list.jsp</result>
+        </action>
+
+        <action name="list" class="com.cqs.demo2.models.user.action.UserAction" method="listJSON">
+           <result type="json" name="success">
+               <!-- 一定要设置-->
+               <param name="root">
+                  users
+               </param>
+           </result>
+        </action>
+
+        <action name="list2" class="com.cqs.demo2.models.user.action.UserAction" method="list2">
+            <result type="json" name="success">
+                 <!-- 一定要设置-->
+                  <param name="root">
+                    jsonResult
+                  </param>
+            </result>
+        </action>
+
+    <action name="delete" class="com.cqs.demo2.models.user.action.UserAction" method="delete">
+        <result type="json" name="success">
+            <!-- 一定要设置-->
+            <param name="root">
+                users
+            </param>
+        </result>
+    </action>
+
+    </package>
+</struts>
